@@ -1,0 +1,52 @@
+To use the ESP32-DEVKITC-32UE as a WiFi local network provider, you can use the Arduino framework with the ESP32 core for Arduino, which includes support for the ESP32 microcontroller. Here's a basic example code in C++ using the Arduino framework:
+
+#include <WiFi.h>
+
+const char *ssid = "your-ssid";
+const char *password = "your-password";
+
+void setup() {
+  Serial.begin(115200);
+
+  // Connect to Wi-Fi
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(1000);
+    Serial.println("Connecting to WiFi...");
+  }
+
+  Serial.println("Connected to WiFi");
+  Serial.print("IP Address: ");
+  Serial.println(WiFi.localIP());
+}
+
+void loop() {
+  // Your code here
+}
+Replace "your-ssid" and "your-password" with your WiFi network SSID and password. This code will connect your ESP32 to the WiFi network and print its IP address to the Serial Monitor.
+
+
+For the Python part, you can create a simple server using the socket module. Here's an example:
+
+import socket
+
+host = '0.0.0.0'  # Listen on all available interfaces
+port = 8080
+
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server_socket.bind((host, port))
+server_socket.listen(5)
+
+print(f"Listening on {host}:{port}")
+
+while True:
+    client_socket, addr = server_socket.accept()
+    print(f"Accepted connection from {addr}")
+
+    data = client_socket.recv(1024)
+    print(f"Received data: {data.decode()}")
+
+    response = "Hello from ESP32!"
+    client_socket.send(response.encode())
+
+    client_socket.close()
